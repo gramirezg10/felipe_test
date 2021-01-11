@@ -150,5 +150,12 @@ app.delete(_rest + '/:id', function(req, res) {
     })
 })
 
+app.get('/smoke-test', function(req, res) {
+	res.json({
+			process: true,
+			message: 'Backend is running'
+	})
+})
+
 
 module.exports = app;
