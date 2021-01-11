@@ -1,41 +1,28 @@
-require('../config/config')
+require('./config/config')
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 const bodyParser = require('body-parser');
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
-// parse application/json
+    // parse application/json
 app.use(bodyParser.json())
 
+app.use(require('./routes/index'));
 
 
 
-const _rest = '/products'
 
-app.get(_rest, function (req, res) {
-    res.json('get products API');
-})
-
-app.post(_rest, function (req, res) {
-    let body = req.body
-    res.json({
-        message: 'ok',
-        body
-    });
-})
-
-app.put(_rest + '/:id', function (req, res) {
-    let id = req.params.id;
-    res.json('put product API with id=' + id);
-})
-
-app.delete(_rest + '/:id', function (req, res) {
-    let id = req.params.id;
-    res.json('delete product API with id=' + id);
-})
-
-
+mongoose.connect('mongodb://localhost:27017/bco_products', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+}, (err, res) => {
+    if (err) throw err;
+    else console.log('DB running');
+});
 
 app.listen(process.env.PORT, () => {
     console.log('Running on port: ', process.env.PORT);
