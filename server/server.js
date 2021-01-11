@@ -14,7 +14,7 @@ app.use(require('./routes/index'));
 
 
 
-mongoose.connect('mongodb://localhost:27017/bco_products', {
+mongoose.connect(process.env.URL_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
