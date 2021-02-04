@@ -29,6 +29,35 @@ app.get(_rest, function(req, res) {
     });
 })
 
+app.get('/product/:id', function(req, res) {
+    let id = req.params.id
+    let _username = req.headers.username
+    if (!_username) {
+        return res.status(400).json({
+            process: false,
+            err: 'username is required in headers'
+        });
+    }
+    ProductSch.findById({ _id: id, username: _username }, (err, product) => {
+        if (err) {
+            return res.status(400).json({
+                process: false,
+                err
+            });
+        }
+        if (!product) {
+            return res.status(400).json({
+                process: false,
+                msg: 'product not found'
+            });
+        }
+        res.json({
+            process: true,
+            product
+        });
+    });
+})
+
 app.post(_rest, async function(req, res) {
     let body = req.body
     let _username = req.headers.username
@@ -128,7 +157,13 @@ app.put(_rest + '/:id', function(req, res) {
 
 app.delete(_rest + '/:id', function(req, res) {
     let id = req.params.id;
-
+    let _username = req.headers.username
+    if (!_username) {
+        return res.status(400).json({
+            process: false,
+            err: 'username is required in headers'
+        });
+    }
     ProductSch.findByIdAndUpdate(id, { enable: false }, (err, productDel) => {
         if (err) {
             return res.status(400).json({
