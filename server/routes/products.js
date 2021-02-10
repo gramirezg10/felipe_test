@@ -130,11 +130,17 @@ app.put(_rest + '/:id', function(req, res) {
             err: 'quantity is required and must be numeric'
         });
     }
+    if (!body.productName) {
+        return res.status(400).json({
+            process: false,
+            err: 'productName is required'
+        });
+    }
     if (!body.description) {
         body.description = "";
     }
 
-    ProductSch.findByIdAndUpdate(id, { quantity: body.quantity, description: body.description }, (err, productFound) => {
+    ProductSch.findByIdAndUpdate(id, { productName: body.productName, quantity: body.quantity, description: body.description, enable: body.enable }, (err, productFound) => {
         if (err) {
             return res.status(400).json({
                 process: false,
