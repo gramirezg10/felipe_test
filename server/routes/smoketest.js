@@ -1,8 +1,6 @@
 const express = require('express');
 const app = express();
 
-const ProductSch = require('../models/products');
-
 const _rest = '/smoke-test'
 
 app.get(_rest, function(req, res) {
